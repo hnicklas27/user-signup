@@ -1,6 +1,4 @@
-.error{
-    color: crimson;
-}
+
 table {
     display: table;
     border-spacing: 2px;
@@ -18,6 +16,6 @@ td, th{
     vertical-align: middle;
 }
 body{
-    font: cursive;
-    
+    font-family: cursive;
+
 }
