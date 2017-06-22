@@ -10,9 +10,16 @@ def noentry():
     username = request.form['username']
     password = request.form['password']
     verify_password = request.form['verify']
+    error = "Please enter text"
 
     if username == '':
-        error = ""
+        return error
+    if passowrd == '':
+        return error
+    if verify_password == '':
+        return error  
+
+
 
 
 @app.route("/")
