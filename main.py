@@ -19,6 +19,18 @@ def noentry():
     if verify_password == '':
         return error  
 
+@app.route("/", methods=['POST'])    
+def notvalid():
+    username_length = request.form['username']
+    password_length = request.form['password']
+    error = "Entry must be longer than 3 character and less than 20."
+
+    if len(username_length) < 3 or len(username_length) > 20:
+        return error
+    if len(password_length) < 3 or len(username_length) > 20:  
+        return error
+
+
 
 
 
