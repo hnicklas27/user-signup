@@ -14,7 +14,7 @@ def noentry():
 
     if username == '':
         return error
-    if passowrd == '':
+    if password == '':
         return error
     if verify_password == '':
         return error  
@@ -30,7 +30,15 @@ def notvalid():
     if len(password_length) < 3 or len(username_length) > 20:  
         return error
 
+@app.route("/", methods=['POST'])
+def passmatch():
+    password = request.form['password']
+    verify_password= request.form['verify']
+    error = "Password and Verification must match"
 
+    if password != verify_password:
+        return error
+        
 
 
 
