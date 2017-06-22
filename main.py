@@ -38,8 +38,9 @@ def passmatch():
 
     if password != verify_password:
         return error
-        
 
+@app.route("/", methods=['POST'])
+def 
 
 
 @app.route("/")
