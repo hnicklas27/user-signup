@@ -38,9 +38,17 @@ def passmatch():
 
     if password != verify_password:
         return error
+@app.route("/",methods=['POST'])
+def emailerror():
+    email = request.form['email']
+    error = "Please enter a valid email"
 
-@app.route("/", methods=['POST'])
-def 
+    if email == '':
+        return pass
+    elif '@' not in email and '.' not in email:
+        return error
+    elif email < 3 or email > 20:
+        return error        
 
 
 @app.route("/")
