@@ -5,56 +5,75 @@ app = Flask(__name__)
 
 app.config['DEBUG'] = True
 
+def noentry(entry):
+    if entry == '':
+        return True
+    else:
+        return False
+
+def validlength(length):
+    if len(length) < 3 or len(length) > 20:
+        return False
+    else:
+        return True  
+
+def passmatch(password,verify):
+    if password != verify:
+        return False
+    else:
+        return True
+                                             
+
 @app.route("/", methods=['POST'])
-def noentry():
+def errors():
     username = request.form['username']
     password = request.form['password']
-    verify_password = request.form['verify']
-    error = "Please enter text"
-
-    if username == '':
-        return error
-    if password == '':
-        return error
-    if verify_password == '':
-        return error  
-
-@app.route("/", methods=['POST'])    
-def notvalid():
-    username_length = request.form['username']
-    password_length = request.form['password']
-    error = "Entry must be longer than 3 character and less than 20."
-
-    if len(username_length) < 3 or len(username_length) > 20:
-        return error
-    if len(password_length) < 3 or len(username_length) > 20:  
-        return error
-
-@app.route("/", methods=['POST'])
-def passmatch():
-    password = request.form['password']
-    verify_password= request.form['verify']
-    error = "Password and Verification must match"
-
-    if password != verify_password:
-        return error
-
-@app.route("/",methods=['POST'])
-def emailerror():
+    verify = request.form['verify']
     email = request.form['email']
-    error = "Please enter a valid email"
 
-    if email == '':
-        pass
-    elif '@' not in email and '.' not in email:
-        return error
-    elif email < 3 or email > 20:
-        return error        
+    username_error = ''
+    password_error = ''
+    verify_error = ''
+    email_error = ''
+
+    if noentry(username):
+        username_error = 'Please enter text'
+    else:
+        if not validlength(username):
+            username_error = 'Username must be greater than 3 and less than 20 characters'
+
+    if noentry(password):
+        password_error = 'Please enter text'
+        password = ''
+    else:
+        if not validlength(password):
+            password_error = 'Password must be greater than 3 and less than 20 characters'
+            password = ''
+
+    if noentry(verify):
+        verify_error = 'Please enter text'
+        verify = ''
+    else:
+        if not passmatch(password,verify):
+            verify_error = 'Password and Verifcation must match'
+            password = ''
+            verify = '' 
+
+    if email != '':
+        if '@' not in email and '.' not in email:
+            email_error = 'Please enter a valid email'
+
+    if not username_error and not password_error and not verify_error and not email_error:
+        return redirect ('/welcome', username = request.args.get('username'))
+    else:
+        return form.format(username_error=username_error,
+            password_error=password_error,
+            verify_error=verify_error,
+            email_error=email_error)    
 
 @app.route("/welcome", methods=['GET','POST'])
 def welcome_page():
-    return render_template('welcome.html',
-        username = username)
+    return render_template('welcome.html')
 
 @app.route("/")
 def index():
