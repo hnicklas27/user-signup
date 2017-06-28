@@ -46,20 +46,16 @@ def errors():
 
     if noentry(password):
         password_error = 'Please enter text'
-        password = ''
     else:
         if not validlength(password):
             password_error = 'Password must be greater than 3 and less than 20 characters'
-            password = ''
 
     if noentry(verify):
         verify_error = 'Please enter text'
-        verify = ''
     else:
         if not passmatch(password,verify):
             verify_error = 'Password and Verifcation must match'
-            password = ''
-            verify = '' 
+
 
     if email != '':
         if '@' not in email or '.' not in email:
