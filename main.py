@@ -1,5 +1,7 @@
 from flask import Flask, request, redirect, render_template
 import cgi
+import os
+import jinja2
 
 app = Flask(__name__)
 
@@ -60,24 +62,25 @@ def errors():
             verify = '' 
 
     if email != '':
-        if '@' not in email and '.' not in email:
+        if '@' not in email or '.' not in email:
             email_error = 'Please enter a valid email'
 
     if not username_error and not password_error and not verify_error and not email_error:
-        return redirect ('/welcome', username = request.args.get('username'))
+        return redirect ('/welcome?username=' + username)
     else:
-        return form.format(username_error=username_error,
+        return render_template('signup_page.html',
+            username_error=username_error,
             password_error=password_error,
             verify_error=verify_error,
             email_error=email_error)    
 
 @app.route("/welcome", methods=['GET','POST'])
-def welcome_page():
-    return render_template('welcome.html')
+def welcome_page(): 
+    username = request.args.get('username')
+    return render_template('welcome.html', username = username)
 
 @app.route("/")
 def index():
-    return render_template('signup_page.html',
-        )
+    return render_template('signup_page.html')
 
 app.run()        
